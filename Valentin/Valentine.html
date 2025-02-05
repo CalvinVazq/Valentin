@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Petite Question Importante</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f8ff;
+    }
+    .card {
+      text-align: center;
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #333;
+    }
+    button {
+      background-color: #ff6b6b;
+      border: none;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      margin: 1rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    button:hover {
+      background-color: #ff4757;
+      transform: scale(1.1);
+    }
+    #response {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: #333;
+    }
+    #gif-container {
+      margin-top: 1.5rem;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Est-ce que tu m'aimes ? ❤️</h1>
+    <button id="yesBtn" onclick="handleResponse(true)">Oui ❤️</button>
+    <button id="noBtn" onclick="handleResponse(false)">Non 😑</button>
+    <div id="response"></div>
+    <div id="gif-container">
+      <img id="gif" src="minions-confuse.gif" alt="Initial Cute Animation">
+    </div>
+  </div>
+
+  <script>
+    function handleResponse(love) {
+      const responseDiv = document.getElementById('response');
+      const gifElement = document.getElementById('gif');
+      const yesBtn = document.getElementById('yesBtn');
+      const noBtn = document.getElementById('noBtn');
+
+      // Cacher les boutons après la réponse
+      yesBtn.style.display = 'none';
+      noBtn.style.display = 'none';
+
+      if (love) {
+        responseDiv.innerHTML = "Aww 🥰 Moi aussi je t'aime ! ❤️";
+        gifElement.src = "gif.gif"; // Remplacer par le bon chemin du gif love
+        // Ajouter le bouton de passage à la question suivante
+        const nextButton = document.createElement('button');
+        nextButton.innerText = "Passer à la question suivante";
+        nextButton.onclick = askNextQuestion;
+        document.querySelector('.card').appendChild(nextButton);
+      } else {
+        responseDiv.innerHTML = "Hmmm... je te donne une seconde chance 😅";
+        gifElement.src = "sad.gif"; // Remplacer par le bon chemin du gif sad
+        
+        // Ajouter le bouton de "retenter" pour relancer la première question
+        const retryButton = document.createElement('button');
+        retryButton.innerText = "Retenter";
+        retryButton.onclick = resetQuiz;
+        document.querySelector('.card').appendChild(retryButton);
+      }
+    }
+
+    function resetQuiz() {
+      // Réinitialiser le questionnaire
+      const card = document.querySelector('.card');
+      card.innerHTML = `
+        <h1>Est-ce que tu m'aimes ? ❤️</h1>
+        <button id="yesBtn" onclick="handleResponse(true)">Oui ❤️</button>
+        <button id="noBtn" onclick="handleResponse(false)">Non 😑</button>
+        <div id="response"></div>
+        <div id="gif-container">
+          <img id="gif" src="minions-confuse.gif" alt="Initial Cute Animation">
+        </div>
+      `;
+    }
+
+    function askNextQuestion() {
+      const card = document.querySelector('.card');
+      card.innerHTML = `
+        <h1>Penses-tu que quelqu'un t'aime plus que tout ? ❤️</h1>
+        <button onclick="handleNextResponse(true)">Oui ❤️</button>
+        <button onclick="handleNextResponse(false)">Je ne crois pas 😟</button>
+        <div id="response"></div>
+        <div id="gif-container">
+          <img id="gif" src="que.gif" alt="Question Animation">
+        </div>
+      `;
+    }
+
+    function handleNextResponse(believesLoved) {
+      const responseDiv = document.getElementById('response');
+      const gifElement = document.getElementById('gif');
+      const h1Element = document.querySelector('h1'); // Cibler le titre de la question
+
+      if (believesLoved) {
+        // Cacher la question (le h1) quand le gif kiss s'affiche
+        h1Element.style.display = 'none';
+        responseDiv.innerHTML = ""; // Enlever le texte supplémentaire
+        gifElement.src = "kiss.gif"; // Remplacer par le bon chemin du gif kiss
+
+        // Ajouter un bouton pour passer à la dernière question
+        const nextButton = document.createElement('button');
+        nextButton.innerText = "Passer à la dernière question";
+        nextButton.onclick = askFinalQuestion;
+        document.querySelector('.card').appendChild(nextButton);
+      } else {
+        responseDiv.innerHTML = "Aie... je crois que tu t'es trompé 😅 Retente de répondre.";
+        gifElement.src = "gr.gif"; // Remplacer par le bon chemin du gif retry
+      }
+    }
+
+    function askFinalQuestion() {
+      const card = document.querySelector('.card');
+      card.innerHTML = `
+        <h1>Alors, veux-tu être ma valentine ? ❤️</h1>
+        <p>(pas le choix mnt ❤️ )</p>
+        <button onclick="finalResponse()">Oui bien sûr ! ❤️</button>
+      `;
+    }
+
+    function finalResponse() {
+      alert('Hâte d être avec toi ma chérie ;) ❤️');
+    }
+  </script>
+</body>
+</html>
